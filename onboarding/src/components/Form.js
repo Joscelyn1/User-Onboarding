@@ -47,7 +47,7 @@ const Form = ({ errors, touched, values, handleSubmit, status }) => {
       </FormikForm>
 
       {users.map(user => (
-        <p key={user.id}>{user.species}</p>
+        <p key={user.name}>{user.name}</p>
       ))}
     </div>
   );
