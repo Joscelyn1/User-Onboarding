@@ -20,9 +20,13 @@ const Form = ({ errors, touched, values, handleSubmit, status }) => {
         <Field type="text" name="name" placeholder="Name" />
         {touched.name && errors.name && <p className="error">{errors.name}</p>}
 
-        <Field type="text" name="email" placeholder="email" />
+        <Field type="email" name="email" placeholder="Email" />
         {touched.email && errors.email && (
           <p className="error">{errors.email}</p>
+        )}
+        <Field type="password" name="password" placeholder="Password" />
+        {touched.password && errors.password && (
+          <p className="error">{errors.password}</p>
         )}
 
         <label className="checkbox-container">
@@ -48,32 +52,29 @@ const Form = ({ errors, touched, values, handleSubmit, status }) => {
 // Higher Order Component - HOC
 // Hard to share component / stateful logic (custom hooks)
 // Function that takes in a component, extends some logic onto that component,
-// // returns a _new_ component (copy of the passed in component with the extended logic)
-// const FormikAnimalForm = withFormik({
-//   mapPropsToValues({ species, size, notes, food, vaccinations }) {
-//     return {
-//       vaccinations: vaccinations || false,
-//       food: food || "",
-//       species: species || "",
-//       size: size || "",
-//       notes: notes || ""
-//     };
-//   },
+// returns a _new_ component (copy of the passed in component with the extended logic)
+const FormikUserForm = withFormik({
+  mapPropsToValues({ name, email, termsOfService }) {
+    return {
+      name: name || "",
+      email: email || "",
+      termsOfService: termsOfService || false
+    };
+  },
 
-//   validationSchema: Yup.object().shape({
-//     species: Yup.string().required(),
-//     size: Yup.string().required(),
-//     notes: Yup.string()
-//   }),
+  validationSchema: Yup.object().shape({
+    name: Yup.string().required(),
+    email: Yup.string().required()
+  }),
 
-//   handleSubmit(values, { setStatus }) {
-//     axios
-//       .post("https://reqres.in/api/users/", values)
-//       .then(res => {
-//         setStatus(res.data);
-//       })
-//       .catch(err => console.log(err.response));
-//   }
-// })(AnimalForm);
+  handleSubmit(values, { setStatus }) {
+    axios
+      .post("https://reqres.in/api/users/", values)
+      .then(res => {
+        setStatus(res.data);
+      })
+      .catch(err => console.log(err.response));
+  }
+})(Form);
 
-export default Form;
+export default FormikUserForm;
