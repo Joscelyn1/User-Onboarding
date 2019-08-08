@@ -3,6 +3,13 @@ import axios from "axios";
 import { Field, withFormik } from "formik";
 import { Form as FormikForm } from "formik";
 import * as Yup from "yup";
+import {
+  Form as StyledForm,
+  Button,
+  FormInput,
+  FormGroup,
+  Row
+} from "shards-react";
 
 const Form = ({ errors, touched, values, handleSubmit, status }) => {
   const [users, setUsers] = useState([]);
@@ -16,19 +23,50 @@ const Form = ({ errors, touched, values, handleSubmit, status }) => {
   return (
     <div className="new-user-form">
       <h1>New User Form</h1>
-      <FormikForm>
-        <Field type="text" name="name" placeholder="Name" />
+      <FormikForm className="form-container">
+        <div className="form-row">
+          <p>Name: </p>
+          <Field
+            className="form-item"
+            type="text"
+            name="name"
+            placeholder="Name"
+          />
+        </div>
         {touched.name && errors.name && <p className="error">{errors.name}</p>}
-
-        <Field type="email" name="email" placeholder="Email" />
+        <div className="form-row">
+          <p>Email: </p>
+          <Field
+            className="form-item"
+            type="email"
+            name="email"
+            placeholder="Email"
+          />
+        </div>
         {touched.email && errors.email && (
           <p className="error">{errors.email}</p>
         )}
-        <Field type="password" name="password" placeholder="Password" />
+        <div className="form-row">
+          <p>Password: </p>
+          <Field
+            className="form-item"
+            type="password"
+            name="password"
+            placeholder="Password"
+          />
+        </div>
         {touched.password && errors.password && (
           <p className="error">{errors.password}</p>
         )}
-        <Field type="password" name="passwordverify" placeholder="Password" />
+        <div className="form-row">
+          <p>Password Verification: </p>
+          <Field
+            className="form-item"
+            type="password"
+            name="passwordverify"
+            placeholder="Password"
+          />
+        </div>
         {touched.passwordverify && errors.passwordverify && (
           <p className="error">{errors.passwordverify}</p>
         )}
@@ -36,6 +74,7 @@ const Form = ({ errors, touched, values, handleSubmit, status }) => {
         <label className="checkbox-container">
           I understand the terms of service
           <Field
+            className="form-item"
             type="checkbox"
             name="termsOfService"
             checked={values.termsOfService}
@@ -43,7 +82,9 @@ const Form = ({ errors, touched, values, handleSubmit, status }) => {
           <span className="checkmark" />
         </label>
 
-        <button type="submit">Submit!</button>
+        <Button theme="primary" type="submit">
+          Submit!
+        </Button>
       </FormikForm>
 
       {users.map(user => (
@@ -70,6 +111,13 @@ const FormikUserForm = withFormik({
 
   validationSchema: Yup.object().shape({
     name: Yup.string().required(),
+    termsOfService: Yup.bool()
+      .test(
+        "consent",
+        "You have to agree with our Terms and Conditions!",
+        value => value === true
+      )
+      .required("You have to agree with our Terms and Conditions!"),
     email: Yup.string().required(),
     password: Yup.string()
       .required()
