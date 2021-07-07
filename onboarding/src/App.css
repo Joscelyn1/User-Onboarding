@@ -1,0 +1,34 @@
+.App {
+  display: flex;
+  flex-direction: column;
+  margin: 20px;
+}
+
+.form-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
+  margin: 10px;
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.new-user-form {
+  margin: 10px auto;
+  background-color: white;
+}
+
+.form-item {
+  width: 150px;
+  margin: 10px;
+}
+
+button {
+  width: 100px;
+}
